@@ -1,116 +1,68 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inside a Heart</title>
-  <style>
-    body {
-      margin: 0;
-      background: #0f0f0f;
-      color: #e0e0e0;
-      font-family: 'Courier New', monospace;
-      overflow: hidden;
-    }.glitch-text {
-  position: absolute;
-  font-size: 1.2rem;
-  white-space: nowrap;
-  animation: floatText 25s infinite linear;
-  opacity: 0.6;
-  text-shadow: 0 0 1px #999;
-}
-
-@keyframes floatText {
-  0% { transform: translate(100vw, -10vh); }
-  100% { transform: translate(-100vw, 110vh); }
-}
-
-.memory {
-  position: absolute;
-  background: rgba(255, 255, 255, 0.03);
-  padding: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(3px);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border-radius: 6px;
-  font-size: 0.9rem;
-}
-
-.memory:hover {
-  background: rgba(255, 255, 255, 0.08);
-  transform: scale(1.05);
-}
-
-.center-love {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 1.6rem;
-  color: #ffffffcc;
-  text-align: center;
-  font-weight: bold;
-  opacity: 0.8;
-  animation: pulse 4s infinite ease-in-out;
-}
-
-@keyframes pulse {
-  0% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
-  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
-  100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
-}
-
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Untuk Amalia Afiqah</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <h1>I love you, Amalia Afiqah</h1>
+
+  <canvas id="glitchCanvas"></canvas>
+
   <audio autoplay loop>
-    <source src="https://cdn.pixabay.com/download/audio/2022/03/08/audio_0f3c3a72cc.mp3?filename=ambient-love-theme-110002.mp3" type="audio/mpeg">
-  </audio>  <div class="center-love">I love you, Amalia Afiqah</div>  <script>
-    const phrases = [
-      "Saat pertama kali mataku menangkapmu...",
-      "Ada ketenangan dalam caramu tersenyum.",
-      "Sejak itu, aku tak pernah benar-benar sendiri.",
-      "Jantungku berdetak sedikit lebih pelan tiap kamu bicara.",
-      "Aku jatuh, tapi rasanya ringan."
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/01/audio_0e1db0e4ca.mp3?filename=dream-140997.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const words = [
+      "detik pertama kita bicara", 
+      "Braga sore itu", 
+      "tawa kecilmu",
+      "langkah tak sengaja",
+      "mata yang menahan rindu",
+      "kenangan yang tidak bisa kusimpan",
+      "aku jatuh, diam-diam"
     ];
 
-    const memories = [
-      "Fragmen 03: Senja pertama di sebelahmu",
-      "Fragmen 08: Surat yang tak pernah kuberi",
-      "Fragmen 15: Detik saat jemarimu menyentuh tanganku",
-      "Fragmen 21: Tatapan yang membuatku diam",
-      "Fragmen 27: Tawa kita di antara lampu kota"
-    ];
+    function spawnMemory() {
+      const mem = document.createElement('div');
+      mem.className = 'memory';
+      mem.innerText = words[Math.floor(Math.random() * words.length)];
+      mem.style.left = Math.random() * window.innerWidth + 'px';
+      mem.style.top = Math.random() * window.innerHeight + 'px';
+      mem.style.fontSize = (Math.random() * 1.5 + 0.5) + 'em';
+      mem.style.opacity = Math.random();
 
-    function randomPosition() {
-      return {
-        top: Math.random() * window.innerHeight + 'px',
-        left: Math.random() * window.innerWidth + 'px'
-      };
+      document.body.appendChild(mem);
+
+      setTimeout(() => {
+        mem.remove();
+      }, 5000);
     }
 
-    function createGlitchText() {
-      const span = document.createElement('span');
-      span.className = 'glitch-text';
-      span.textContent = phrases[Math.floor(Math.random() * phrases.length)];
-      const pos = randomPosition();
-      span.style.top = pos.top;
-      span.style.left = pos.left;
-      document.body.appendChild(span);
+    setInterval(spawnMemory, 1000);
+
+    // Glitch effect on canvas
+    const canvas = document.getElementById('glitchCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    function glitch() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < 10; i++) {
+        ctx.fillStyle = 'rgba(255,255,255,0.02)';
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
+        const w = Math.random() * 200;
+        const h = Math.random() * 2;
+        ctx.fillRect(x, y, w, h);
+      }
     }
 
-    function createMemory() {
-      const div = document.createElement('div');
-      div.className = 'memory';
-      div.textContent = memories[Math.floor(Math.random() * memories.length)];
-      const pos = randomPosition();
-      div.style.top = pos.top;
-      div.style.left = pos.left;
-      div.onclick = () => alert("Kamu tak bisa menyimpan cinta seperti ini.");
-      document.body.appendChild(div);
-    }
-
-    setInterval(createGlitchText, 3000);
-    setInterval(createMemory, 8000);
-  </script></body>
+    setInterval(glitch, 100);
+  </script>
+</body>
 </html>
