@@ -2,67 +2,118 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Untuk Amalia Afiqah</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pikiran Tentang Amalia Afiqah</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      color: #fff;
+      font-family: 'Courier New', Courier, monospace;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 1.8em;
+      padding: 0 1rem;
+      animation: pulse 3s ease-in-out infinite;
+      z-index: 2;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+
+    .memory {
+      position: absolute;
+      font-size: 0.8em;
+      color: rgba(255, 255, 255, 0.6);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      mix-blend-mode: screen;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 1.2em;
+      }
+
+      .memory {
+        font-size: 0.7em;
+      }
+    }
+  </style>
 </head>
 <body>
   <h1>I love you, Amalia Afiqah</h1>
-
   <canvas id="glitchCanvas"></canvas>
 
   <audio autoplay loop>
-    <source src="https://cdn.pixabay.com/download/audio/2022/03/01/audio_0e1db0e4ca.mp3?filename=dream-140997.mp3" type="audio/mpeg">
+    <source src="your-audio.mp3" type="audio/mp3">
+    Suaramu tidak didukung browser.
   </audio>
 
   <script>
-    const words = [
-      "detik pertama kita bicara", 
-      "Braga sore itu", 
-      "tawa kecilmu",
-      "langkah tak sengaja",
-      "mata yang menahan rindu",
-      "kenangan yang tidak bisa kusimpan",
-      "aku jatuh, diam-diam"
+    // generate kenangan acak
+    const phrases = [
+      "suara kamu masih terngiang",
+      "kenangan di Braga",
+      "mata kamu waktu senyum",
+      "diam tapi penuh makna",
+      "sentuhan pertama yang menggigilkan",
+      "sisa aroma di jaketku",
+      "diam bukan berarti lupa",
+      "Amalia Afiqah, namamu tetap tinggal"
     ];
 
-    function spawnMemory() {
-      const mem = document.createElement('div');
-      mem.className = 'memory';
-      mem.innerText = words[Math.floor(Math.random() * words.length)];
-      mem.style.left = Math.random() * window.innerWidth + 'px';
-      mem.style.top = Math.random() * window.innerHeight + 'px';
-      mem.style.fontSize = (Math.random() * 1.5 + 0.5) + 'em';
-      mem.style.opacity = Math.random();
+    function createMemory() {
+      const memory = document.createElement('div');
+      memory.classList.add('memory');
+      memory.textContent = phrases[Math.floor(Math.random() * phrases.length)];
+      memory.style.top = `${Math.random() * 100}vh`;
+      memory.style.left = `${Math.random() * 100}vw`;
+      memory.style.opacity = 0;
+      memory.style.transition = 'opacity 5s ease-in';
 
-      document.body.appendChild(mem);
+      document.body.appendChild(memory);
+      requestAnimationFrame(() => memory.style.opacity = 1);
 
       setTimeout(() => {
-        mem.remove();
+        memory.style.opacity = 0;
+        setTimeout(() => memory.remove(), 6000);
       }, 5000);
     }
 
-    setInterval(spawnMemory, 1000);
+    setInterval(createMemory, 3000);
 
-    // Glitch effect on canvas
+    // glitch canvas
     const canvas = document.getElementById('glitchCanvas');
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    function glitch() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (let i = 0; i < 10; i++) {
-        ctx.fillStyle = 'rgba(255,255,255,0.02)';
-        const x = Math.random() * canvas.width;
-        const y = Math.random() * canvas.height;
-        const w = Math.random() * 200;
-        const h = Math.random() * 2;
-        ctx.fillRect(x, y, w, h);
-      }
+    function drawGlitch() {
+      ctx.fillStyle = `rgba(${Math.random()*255}, ${Math.random()*255}, ${Math.random()*255}, 0.05)`;
+      ctx.fillRect(Math.random() * canvas.width, Math.random() * canvas.height, 2, 2);
+      requestAnimationFrame(drawGlitch);
     }
-
-    setInterval(glitch, 100);
+    drawGlitch();
   </script>
 </body>
 </html>
