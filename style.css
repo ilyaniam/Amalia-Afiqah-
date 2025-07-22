@@ -1,0 +1,103 @@
+/* Reset dasar */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #000;
+  color: #fff;
+  font-family: 'Courier New', monospace;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Teks utama yang berdenyut */
+.main-text {
+  font-size: 2.5rem;
+  letter-spacing: 2px;
+  text-align: center;
+  animation: pulse 2.5s infinite ease-in-out;
+  z-index: 10;
+}
+
+/* Efek glitch di sekitar teks */
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0.6;
+  color: #fff;
+  background: transparent;
+  overflow: hidden;
+  clip: rect(0, 900px, 0, 0);
+}
+
+.glitch::before {
+  animation: glitchTop 2s infinite linear alternate-reverse;
+  color: #aaa;
+}
+.glitch::after {
+  animation: glitchBottom 1.5s infinite linear alternate-reverse;
+  color: #555;
+}
+
+/* Fragmen teks acak */
+.memory {
+  position: absolute;
+  font-size: 0.9rem;
+  opacity: 0.4;
+  animation: floatText 12s infinite;
+  pointer-events: none;
+}
+
+/* Audio note */
+audio {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  opacity: 0.1;
+}
+
+/* Animasi */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.7; }
+}
+
+@keyframes glitchTop {
+  0% { clip: rect(0, 9999px, 0, 0); transform: translate(0); }
+  20% { clip: rect(0, 9999px, 3px, 0); transform: translate(-2px, -2px); }
+  40% { clip: rect(0, 9999px, 6px, 0); transform: translate(2px, -1px); }
+  60% { clip: rect(0, 9999px, 2px, 0); transform: translate(-1px, 2px); }
+  100% { clip: rect(0, 9999px, 0, 0); transform: translate(0); }
+}
+
+@keyframes glitchBottom {
+  0% { clip: rect(0, 9999px, 0, 0); transform: translate(0); }
+  20% { clip: rect(3px, 9999px, 7px, 0); transform: translate(2px, 2px); }
+  40% { clip: rect(5px, 9999px, 8px, 0); transform: translate(-2px, 1px); }
+  60% { clip: rect(2px, 9999px, 6px, 0); transform: translate(1px, -1px); }
+  100% { clip: rect(0, 9999px, 0, 0); transform: translate(0); }
+}
+
+@keyframes floatText {
+  0% {
+    transform: translateY(100vh) translateX(0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100vh) translateX(30px);
+    opacity: 0;
+  }
+}
